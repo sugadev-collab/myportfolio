@@ -1,104 +1,129 @@
-// Theme is a preference, not a separate page. The inline head script applies it
-// before first paint; this button toggles and persists it for future visits.
-const themeToggle = document.getElementById('theme-toggle');
-const themeColor = document.querySelector('meta[name="theme-color"]');
-function syncThemeControl() {
+/** Sideways Studies — a minimal native scroll-snap chapter controller. */
+const track = document.getElementById('track');
+const panels = [...track.querySelectorAll('.panel')];
+const chapterLinks = [...document.querySelectorAll('[data-go]')];
+const navLinks = [...document.querySelectorAll('.chapters a')];
+const dots = [...document.querySelectorAll('.dot')];
+const currentLabel = document.getElementById('current-number');
+const previous = document.getElementById('prev');
+const next = document.getElementById('next');
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+let current = 0;
+let wheelCooldown = 0;
+let wheelAccum = 0;
+let scrollTicking = false;
+
+function goTo(index, updateHash = true) {
+  const target = Math.max(0, Math.min(panels.length - 1, index));
+  track.scrollTo({ left: target * track.clientWidth, behavior: reducedMotion.matches ? 'instant' : 'smooth' });
+  setActive(target);
+  if (updateHash) history.replaceState(null, '', `#${panels[target].id}`);
+}
+function setActive(index) {
+  current = Math.max(0, Math.min(panels.length - 1, index));
+  currentLabel.textContent = String(current).padStart(2, '0');
+  previous.disabled = current === 0;
+  next.disabled = current === panels.length - 1;
+  dots.forEach((dot, i) => {
+    dot.classList.toggle('is-active', i === current);
+    if (i === current) dot.setAttribute('aria-current', 'step');
+    else dot.removeAttribute('aria-current');
+  });
+  navLinks.forEach((link, i) => {
+    if (i === current) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  });
+}
+chapterLinks.forEach(link => link.addEventListener('click', event => {
+  if (link.tagName === 'A') event.preventDefault();
+  goTo(Number(link.dataset.go));
+}));
+previous.addEventListener('click', () => goTo(current - 1));
+next.addEventListener('click', () => goTo(current + 1));
+
+// Ordinary vertical mouse-wheel gestures advance the sideways story, one chapter
+// at a time. Touchscreens retain native horizontal swipe and scroll snapping.
+track.addEventListener('wheel', event => {
+  if (event.ctrlKey || event.metaKey) return; // Preserve browser zoom.
+  if (Math.abs(event.deltaX) > Math.abs(event.deltaY) * 1.2) return; // Native horizontal trackpads.
+  if (Math.abs(event.deltaY) < 2) return;
+  // In short viewports, give internal vertical content a chance to scroll.
+  const section = panels[current];
+  if (section.scrollHeight > section.clientHeight + 3) {
+    const atBottom = section.scrollTop + section.clientHeight >= section.scrollHeight - 3;
+    const atTop = section.scrollTop <= 3;
+    if ((event.deltaY > 0 && !atBottom) || (event.deltaY < 0 && !atTop)) {
+      section.scrollTop += event.deltaY;
+      event.preventDefault();
+      return;
+    }
+  }
+  event.preventDefault();
+  const now = performance.now();
+  if (now < wheelCooldown) return;
+  wheelAccum += event.deltaY;
+  if (Math.abs(wheelAccum) < 26) return;
+  const direction = Math.sign(wheelAccum);
+  wheelAccum = 0;
+  wheelCooldown = now + 650;
+  goTo(current + direction);
+}, { passive: false });
+
+window.addEventListener('keydown', event => {
+  const target = event.target;
+  if (target?.closest?.('input,textarea,select,[contenteditable="true"]')) return;
+  if (event.altKey || event.ctrlKey || event.metaKey) return;
+  if (event.key === 'ArrowRight' || event.key === 'PageDown') { event.preventDefault(); goTo(current + 1); }
+  else if (event.key === 'ArrowLeft' || event.key === 'PageUp') { event.preventDefault(); goTo(current - 1); }
+  else if (event.key === 'Home') { event.preventDefault(); goTo(0); }
+  else if (event.key === 'End') { event.preventDefault(); goTo(panels.length - 1); }
+});
+track.addEventListener('scroll', () => {
+  if (scrollTicking) return;
+  scrollTicking = true;
+  requestAnimationFrame(() => {
+    const index = Math.round(track.scrollLeft / Math.max(1, track.clientWidth));
+    setActive(index);
+    scrollTicking = false;
+  });
+}, { passive: true });
+window.addEventListener('resize', () => {
+  track.scrollTo({ left: current * track.clientWidth, behavior: 'instant' });
+});
+// Honor direct links to a chapter without causing an ordinary vertical jump.
+const initialIndex = panels.findIndex(p => `#${p.id}` === decodeURIComponent(location.hash));
+if (initialIndex > 0) requestAnimationFrame(() => goTo(initialIndex, false));
+else setActive(0);
+window.addEventListener('hashchange', () => {
+  const i = panels.findIndex(p => `#${p.id}` === decodeURIComponent(location.hash));
+  if (i >= 0) goTo(i, false);
+});
+
+// Tiny illustrated face — wide-eyed light mode, sunglasses dark mode.
+const toggle = document.getElementById('theme-toggle');
+const themeMeta = document.querySelector('meta[name="theme-color"]');
+function syncTheme() {
   const dark = document.documentElement.dataset.theme === 'dark';
-  themeToggle.setAttribute('aria-pressed', String(dark));
-  const label = dark ? 'Switch to light mode' : 'Switch to dark mode';
-  themeToggle.setAttribute('aria-label', label);
-  themeToggle.title = label;
-  themeColor?.setAttribute('content', dark ? '#0a111c' : '#fffaf2');
+  toggle.setAttribute('aria-pressed', String(dark));
+  const title = dark ? 'Switch to light mode' : 'Switch to dark mode';
+  toggle.setAttribute('aria-label', title);
+  toggle.title = title;
+  themeMeta?.setAttribute('content', dark ? '#121d1d' : '#f7f4ec');
 }
-themeToggle.addEventListener('click', () => {
-  const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-  document.documentElement.dataset.theme = next;
-  try { localStorage.setItem('es-portfolio-theme', next); } catch (_) { /* Still works without storage. */ }
-  syncThemeControl();
+toggle.addEventListener('click', () => {
+  const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = nextTheme;
+  try { localStorage.setItem('es-portfolio-theme', nextTheme); } catch (_) {}
+  syncTheme();
 });
-syncThemeControl();
+syncTheme();
 
-// A restrained pointer-follow glow appears only over project cards. No interval
-// or continuous JavaScript animation is used.
-const canTrackGlow = window.matchMedia('(hover: hover) and (pointer: fine)').matches
-  && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-if (canTrackGlow) {
-  document.querySelectorAll('.project-card').forEach(card => {
-    card.addEventListener('pointermove', event => {
-      const rect = card.getBoundingClientRect();
-      card.style.setProperty('--glow-x', `${event.clientX - rect.left}px`);
-      card.style.setProperty('--glow-y', `${event.clientY - rect.top}px`);
-    }, { passive: true });
-  });
-}
-
-// Lightweight page enhancements. Nothing here is required to read the content.
-const menuButton = document.querySelector('.menu-toggle');
-const navigation = document.getElementById('primary-nav');
-function closeMenu() {
-  menuButton.setAttribute('aria-expanded', 'false');
-  menuButton.setAttribute('aria-label', 'Open navigation');
-  navigation.classList.remove('is-open');
-}
-menuButton.addEventListener('click', () => {
-  const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
-  menuButton.setAttribute('aria-expanded', String(!isOpen));
-  menuButton.setAttribute('aria-label', isOpen ? 'Open navigation' : 'Close navigation');
-  navigation.classList.toggle('is-open', !isOpen);
-});
-navigation.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
-document.addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
-document.addEventListener('click', event => {
-  if (!navigation.contains(event.target) && !menuButton.contains(event.target)) closeMenu();
-});
-const desktopQuery = window.matchMedia('(min-width: 901px)');
-desktopQuery.addEventListener?.('change', event => { if (event.matches) closeMenu(); });
-document.getElementById('year').textContent = String(new Date().getFullYear());
-
-// The top progress line moves only when the page scrolls; it does not animate endlessly.
-const scrollProgress = document.querySelector('.scroll-progress');
-let scrollFramePending = false;
-function updateScrollProgress() {
-  scrollFramePending = false;
-  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-  const progress = maxScroll > 0 ? Math.min(1, Math.max(0, window.scrollY / maxScroll)) : 0;
-  scrollProgress.style.transform = `scaleX(${progress})`;
-}
-function requestScrollProgress() {
-  if (scrollFramePending) return;
-  scrollFramePending = true;
-  window.requestAnimationFrame(updateScrollProgress);
-}
-window.addEventListener('scroll', requestScrollProgress, { passive: true });
-window.addEventListener('resize', requestScrollProgress, { passive: true });
-requestScrollProgress();
-
-// IntersectionObserver reveals content only as it becomes visible.
-// If JS is blocked, observers are unavailable, or reduced motion is requested,
-// all sections remain visible with no transition.
-const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-if ('IntersectionObserver' in window && !reducedMotionQuery.matches) {
-  const revealItems = document.querySelectorAll(
-    '.section-heading, .project-card, .about-side, .about-body, .timeline-item, .skill-group, .contact-wrap'
-  );
-  const revealObserver = new IntersectionObserver(entries => {
-    for (const entry of entries) {
-      if (!entry.isIntersecting) continue;
-      entry.target.classList.add('is-visible');
-      revealObserver.unobserve(entry.target);
-    }
-  }, { threshold: 0.07, rootMargin: '0px 0px -20px 0px' });
-  revealItems.forEach(item => {
-    item.classList.add('reveal-on-scroll');
-    revealObserver.observe(item);
-  });
-  document.documentElement.classList.add('motion-enabled');
-
-  // Respect a setting changed while the page is open.
-  reducedMotionQuery.addEventListener?.('change', event => {
-    if (event.matches) {
-      document.documentElement.classList.remove('motion-enabled');
-      revealObserver.disconnect();
-    }
-  });
+// Ambient spotlight follows the cursor, while the thin animated project border
+// is visible even without hovering. Pointer-tracking is purely decorative.
+if (matchMedia('(hover:hover) and (pointer:fine)').matches && !reducedMotion.matches) {
+  document.querySelectorAll('.showcase-card').forEach(card => card.addEventListener('pointermove', event => {
+    const box = card.getBoundingClientRect();
+    card.style.setProperty('--glow-x', `${event.clientX - box.left}px`);
+    card.style.setProperty('--glow-y', `${event.clientY - box.top}px`);
+  }, { passive: true }));
 }

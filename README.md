@@ -1,35 +1,44 @@
-# Elakumar Sugatheepan — Portfolio
+# Sideways Studies — Elakumar Sugatheepan
 
-A lightweight, responsive single-page portfolio built using HTML, CSS and vanilla JavaScript. No build step, paid service, accounts, analytics or backend needed. Includes a warm cream default theme and a persistent dark mode, two original tiny SVG face icons (wide-eyed blinking face / sunglasses), card-edge glow, subtle CSS orbital animations, scroll-in section reveals, hover interactions, and a scroll-progress indicator. All motion respects `prefers-reduced-motion`; content remains visible when JavaScript is disabled.
+A creative, horizontal single-page developer portfolio. Six full-screen chapters tell a story from introduction to shipped work, internship, current skills and contact. Built with pure HTML, CSS and JavaScript, with no build step, paid services, or external dependencies.
 
-## Site contents
-- Introduction with contact links and a CV download
-- Two featured deployed projects: Voidward Command and FormFit Image
-- About, internship experience and education
-- Technical skills grouped by area
-- Contact section
+## Live site
 
-## Run locally
-Open `index.html` directly or serve the folder with `python -m http.server 8000` and visit `http://localhost:8000/`.
+Expected GitHub Pages URL: https://sugadev-collab.github.io/myportfolio/
 
-## Deploy for free
-Repository: [`sugadev-collab/myportfolio`](https://github.com/sugadev-collab/myportfolio). All website files and assets live at the repository root. In Settings → Pages, use **Deploy from a branch → main → / (root)**. Your expected address will be `https://sugadev-collab.github.io/myportfolio/`. A `.nojekyll` file is included for static hosting. Alternatively use Cloudflare Pages → Connect to Git → framework **None**, no build command, output directory `.`.
+Source: https://github.com/sugadev-collab/myportfolio
 
-## Update content
-- `index.html` — name, introduction, projects, experience, skills, email and social links.
-- `styles.css` — layout, colors, typography and responsive styles.
-- `script.js` — theme toggle and preference storage, subtle pointer-responsive card glow, mobile menu, footer date, scroll reveals and scroll progress.
-- `assets/Elakumar_Sugatheepan_CV.pdf` — latest downloadable CV. Replace when it changes.
-- `assets/voidward-preview.webp` — screenshot of the user's own deployed game.
-- `assets/formfit-preview.svg` — conceptual illustration of the resizer, **not an actual screenshot**.
-- `assets/favicon.svg` — site icon.
+## Navigation
 
-## Accuracy and scope
-Descriptions reflect the projects and CV supplied by the developer. Technologies used within the 3D game are not presented as mastered independent skills. FormFit preview is illustrative. No claims of a degree, certifications, employers beyond SGIC, or unverified project metrics are made.
+- **Desktop:** mouse wheel advances a chapter sideways. Horizontal trackpad swipes work natively. Use top navigation, arrows and chapter dots at the bottom, or Left/Right, PageUp/PageDown, Home/End keys.
+- **Mobile/tablet:** swipe left/right between chapters; use the chapter navigation bar and next/previous controls. Scrollbars are hidden; native horizontal scroll-snap remains available.
+- **Short screens / zoom:** individual panels can scroll internally to keep text and links reachable. The page itself never shows a vertical scrollbar.
+- **Accessibility:** links have labels, focus indicators, keyboard support, semantic headings, and `prefers-reduced-motion` disables ornamental animation.
 
-After deployment, update the CV with the confirmed portfolio URL, and add it to the GitHub profile if desired.
+## Design
 
-## Design notes
-- Default theme: warm off-white, crisp white cards, teal ink accents, subtle amber highlights. Dark theme: deep navy glass.
-- The top-right animated face is a **button**: wide-open blinking eyes represent light mode, sunglasses represent dark mode. Click it to switch themes; the preference is stored only in browser `localStorage`.
-- CSS-only effects and tiny inline SVGs keep the site lightweight. `prefers-reduced-motion` disables decorative movement. No icon fonts, frameworks or external CDNs.
+- Warm paper default, rich jade and ochre accents, and deep-navy dark theme.
+- Animated editorial monogram/orbit on opening chapter; softly illuminated project stages, always-visible sweeping luminous frames and interactive spotlight.
+- Tiny SVG wide-eyed blinking face for light mode and sunglasses face for dark mode. Theme preference is stored in browser `localStorage` (no backend).
+- Six chapters: Start, Voidward Command, FormFit Image, Story, Toolkit, Contact.
+- Real screenshot of Voidward Command. FormFit illustration is **conceptual**, not a screenshot.
+
+## Files
+
+- `index.html`: semantic content, chapters, illustrations, project and contact links
+- `styles.css`: responsive layout, animation and theme palette
+- `script.js`: horizontal scroll control, active section state, theme, pointer effects
+- `assets/voidward-preview.webp`: game screenshot
+- `assets/formfit-preview.svg`: conceptual tool illustration
+- `assets/Elakumar_Sugatheepan_CV.pdf`: downloaded CV
+- `assets/favicon.svg`: icon
+
+## Development and publishing
+
+Run `python -m http.server 8000` in the repo root and visit http://localhost:8000/; or open `index.html` directly.
+
+GitHub Pages → Settings → Pages → Deploy from a branch → `main` → `/ (root)`.
+
+## Factual accuracy
+
+Descriptions are grounded in the developer's CV and published projects. The game was directed, tested and deployed with AI-assisted implementation; Three.js/WebGL are not listed as independent mastered skills. SGIC internship is Jan–Aug 2026. Vocational coursework is an NVQ Level 4 **pathway**, not a claimed completed certification.
