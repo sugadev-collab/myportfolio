@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 730" role="img" aria-labelledby="title desc">
+<title id="title">FormFit Image feature illustration</title>
+<desc id="desc">A conceptual illustration of the FormFit photo and signature resizer interface.</desc>
+<defs>
+ <linearGradient id="a" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c9e4ff"/><stop offset="1" stop-color="#eff7ff"/></linearGradient>
+ <linearGradient id="b" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#2968e8"/><stop offset="1" stop-color="#2243a5"/></linearGradient>
+ <filter id="shadow" x="-20%" y="-40%" width="160%" height="200%"><feDropShadow dx="0" dy="22" stdDeviation="27" flood-color="#204981" flood-opacity=".17"/></filter>
+</defs>
+<rect width="1200" height="730" fill="url(#a)"/>
+<circle cx="1090" cy="35" r="210" fill="#ffffff" opacity=".37"/>
+<circle cx="40" cy="695" r="295" fill="#a1c6fb" opacity=".22"/>
+<g filter="url(#shadow)"><rect x="147" y="95" width="908" height="543" rx="23" fill="#ffffff"/></g>
+<path d="M170 95h862a23 23 0 0 1 23 23v48H147v-48a23 23 0 0 1 23-23" fill="#f3f7ff"/>
+<circle cx="184" cy="130" r="8" fill="#f5a19c"/><circle cx="212" cy="130" r="8" fill="#f5d391"/><circle cx="240" cy="130" r="8" fill="#96dbba"/>
+<rect x="340" y="117" width="511" height="27" rx="13" fill="#e5eefa"/>
+<g font-family="Arial,Helvetica,sans-serif">
+<text x="205" y="227" font-size="31" fill="#1f3963" font-weight="bold">FormFit <tspan fill="#3579ee">Image</tspan></text>
+<text x="205" y="270" font-size="18" fill="#70829c">Resize your images privately, right in your browser.</text>
+<rect x="205" y="313" width="360" height="248" rx="16" fill="#f6f9ff" stroke="#cddbf0" stroke-width="2" stroke-dasharray="10 7"/>
+<rect x="242" y="356" width="286" height="158" rx="11" fill="#e0edfc"/>
+<circle cx="319" cy="405" r="23" fill="#ffd478"/>
+<path d="M260 488l83-75 60 52 55-67 53 90Z" fill="#7da6df"/><path d="M260 488l83-75 60 52 55-67 53 90Z" fill="#5390d9" opacity=".7"/>
+<path d="M303 443l39-30 31 27" fill="none" stroke="#9bc2ef" stroke-width="12" stroke-linecap="round"/>
+<text x="316" y="545" font-size="14" fill="#657b99">PRIVATE IMAGE PREVIEW</text>
+<text x="618" y="337" font-size="17" fill="#516783" font-weight="bold">FILE SIZE LIMIT</text>
+<rect x="618" y="359" width="372" height="67" rx="12" fill="#f3f7ff" stroke="#dce7f7"/>
+<text x="650" y="402" font-size="27" font-weight="bold" fill="#1e4778">20–50 KB</text>
+<text x="618" y="462" font-size="17" fill="#516783" font-weight="bold">DIMENSIONS</text>
+<rect x="618" y="479" width="172" height="64" rx="12" fill="#f3f7ff" stroke="#dce7f7"/>
+<rect x="804" y="479" width="186" height="64" rx="12" fill="#f3f7ff" stroke="#dce7f7"/>
+<text x="649" y="520" font-size="25" font-weight="bold" fill="#1e4778">600 px</text><text x="832" y="520" font-size="25" font-weight="bold" fill="#1e4778">600 px</text>
+<rect x="618" y="567" width="372" height="47" rx="12" fill="url(#b)"/>
+<text x="714" y="599" font-size="19" font-weight="bold" fill="white">Resize &amp; download</text>
+</g>
+</svg>
