@@ -4,9 +4,13 @@ A creative, horizontal single-page developer portfolio. Six full-screen chapters
 
 ## Live site
 
-Expected GitHub Pages URL: https://sugadev-collab.github.io/myportfolio/
+**Portfolio website:** https://sugadev-collab.github.io/myportfolio/
 
-Source: https://github.com/sugadev-collab/myportfolio
+**Status:** Published from `main` on GitHub Pages; latest horizontal-layout fixes are included.
+
+**Source code:** https://github.com/sugadev-collab/myportfolio
+
+**Featured projects:** [Voidward Command (live game)](https://mygamesorg.github.io/SpaceClash/) · [FormFit Image (live tool)](https://formfit-image.pages.dev/)
 
 ## Navigation
 
@@ -30,7 +34,7 @@ Source: https://github.com/sugadev-collab/myportfolio
 - `script.js`: horizontal scroll control, active section state, theme, pointer effects
 - `assets/voidward-preview.webp`: game screenshot
 - `assets/formfit-preview.svg`: conceptual tool illustration
-- `assets/Elakumar_Sugatheepan_CV.pdf`: downloaded CV
+- `assets/Elakumar_Sugatheepan_CV.pdf`: downloadable CV (replace this file when the CV is revised)
 - `assets/favicon.svg`: icon
 
 ## Development and publishing
