@@ -25,3 +25,194 @@ html[data-theme="dark"]{color-scheme:dark;--paper:#121d1d;--card:#1d2a28;--ink:#
 @media (max-height:700px){.panel{overflow-y:auto;scrollbar-width:none;overscroll-behavior-y:contain}.panel::-webkit-scrollbar{display:none}.panel-inner{min-height:590px;height:100%}.intro-copy h1{margin:12px 0}.project-copy{padding-top:15px;padding-bottom:12px}.project-copy h2{font-size:clamp(49px,5.4vw,83px)}.project-copy>p{margin-top:11px}.project-actions{margin-top:15px}.story-heading h2{margin:15px 0}}
 @media (max-height:700px) and (max-width:800px){.panel-inner{min-height:700px}.panel{overscroll-behavior-y:contain}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.showcase-card{will-change:auto}}
+
+
+/* Layout and theme integrity pass — prevent accidental nested desktop scrolling. */
+html,body{overflow:hidden!important;overscroll-behavior:none}
+.track{overflow-x:auto;overflow-y:hidden;scrollbar-width:none!important;-ms-overflow-style:none}
+.track::-webkit-scrollbar,.panel::-webkit-scrollbar,.chapters::-webkit-scrollbar{width:0!important;height:0!important;display:none!important}
+.panel{overflow:hidden;min-height:0}
+.panel-inner{min-height:0;min-width:0}
+.intro-grid,.project-layout,.story-layout,.toolkit-layout,.contact-layout{min-height:0}
+.intro-copy,.intro-visual,.project-copy,.project-stage,.story-heading,.story-entries,.toolkit-title,.skills-board,.contact-copy,.contact-card{min-height:0;min-width:0}
+/* The face icons share the same optical centre in both states. */
+.theme-toggle{display:flex;align-items:center;justify-content:center;padding:0;line-height:0;isolation:isolate}
+.theme-toggle .face{position:absolute;top:50%;left:50%;width:36px;height:36px;display:block;transform-origin:center;transform:translate(-50%,-50%);pointer-events:none}
+.theme-toggle .face-cool{opacity:0;transform:translate(-50%,-50%) rotate(12deg) scale(.78)}
+html[data-theme="dark"] .theme-toggle .face-cool{opacity:1;transform:translate(-50%,-50%)}
+html[data-theme="dark"] .theme-toggle .face-awake{opacity:0;transform:translate(-50%,-50%) rotate(-12deg) scale(.78)}
+/* Every chapter uses the same theme. The project *image* may remain dark. */
+.panel-game,.panel-formfit,.panel-toolkit{background:var(--paper);color:var(--ink)}
+.panel-game .eyebrow,.panel-game h2 em,.panel-formfit h2 em{color:var(--jade)}
+.panel-game .project-category,.panel-game .project-copy>p{color:var(--ink-soft)}
+.panel-game .tech-notes span{border-color:var(--line);color:var(--ink-soft)}
+.panel-game .pill-filled{background:#285e50;border-color:#285e50;color:#fff}
+.panel-game .pill-inverse{border-color:var(--line);color:var(--ink);background:transparent}
+.panel-game .pill-inverse:hover{background:var(--jade-light);border-color:var(--jade)}
+.panel-game .case-footnote{border-color:var(--line);color:var(--ink-soft)}
+.panel-game .case-footnote span{color:var(--jade)}
+.stage-game{background:radial-gradient(ellipse at 52% 40%,#d4e9da,#e8ebe0 73%);border-left-color:var(--line)}
+.stage-game .stage-topline,.stage-game .stage-bottom{color:#315e54}
+html[data-theme="dark"] .panel-game{background:#14232a;color:#f5f2e7}
+html[data-theme="dark"] .panel-game .eyebrow{color:#a2cdbd}
+html[data-theme="dark"] .panel-game h2 em{color:#c6e8d3}
+html[data-theme="dark"] .panel-game .project-category,html[data-theme="dark"] .panel-game .project-copy>p{color:#c7d4d0}
+html[data-theme="dark"] .panel-game .tech-notes span{border-color:#45636a;color:#b8d0ce}
+html[data-theme="dark"] .panel-game .pill-filled{background:#b2e9c9;border-color:#b2e9c9;color:#112c29}
+html[data-theme="dark"] .panel-game .pill-inverse{border-color:#ffffff66;color:#fff}
+html[data-theme="dark"] .panel-game .case-footnote{border-color:#45636a;color:#bfd0c6}
+html[data-theme="dark"] .panel-game .case-footnote span{color:#a9dbbd}
+html[data-theme="dark"] .stage-game{background:radial-gradient(ellipse at 50% 42%,#2e5960,#14232c 73%);border-left-color:#496568}
+html[data-theme="dark"] .stage-game .stage-topline,html[data-theme="dark"] .stage-game .stage-bottom{color:#c8d7d6}
+html[data-theme="dark"] .panel-formfit,html[data-theme="dark"] .panel-toolkit{background:var(--paper)}
+html[data-theme="dark"] .panel-formfit h2 em{color:var(--jade)}
+/* Compact desktop: all six chapters must fit between nav and controller. */
+@media (min-width:801px) and (max-height:750px){
+  .panel{overflow:hidden!important}
+  .panel-inner{height:100%;min-height:0!important}
+  .intro-copy{padding-top:12px;padding-bottom:12px}
+  .intro-copy h1{font-size:clamp(54px,6.2vw,80px);margin:10px 0 12px;line-height:.88}
+  .intro-lede{font-size:clamp(12px,1.1vw,15px);line-height:1.46}
+  .intro-actions{margin-top:13px}
+  .intro-foot{margin-top:14px}
+  .pill-link{min-height:42px;padding:0 16px}
+  .project-copy{padding-top:12px;padding-bottom:12px}
+  .project-copy h2{font-size:clamp(50px,5vw,68px);line-height:.98}
+  .project-category{margin:11px 0 4px}
+  .project-copy>p{font-size:clamp(12px,1vw,14px);line-height:1.4;margin-top:10px}
+  .tech-notes{margin-top:12px}
+  .project-actions{margin-top:13px}
+  .case-footnote{margin-top:12px;padding-top:8px;font-size:10px;line-height:1.4}
+  .project-stage{padding:16px 23px}
+  .showcase-card{max-height:78%;width:auto;aspect-ratio:1.53}
+  .story-heading{padding-top:12px;padding-bottom:12px}
+  .story-heading h2{font-size:clamp(50px,5vw,70px);margin:13px 0;line-height:.95}
+  .story-heading>p{font-size:13px;line-height:1.4}
+  .story-entries{padding-top:9px;padding-bottom:9px}
+  .story-row{padding:11px 0}
+  .story-year{font-size:27px}
+  .story-body h3{font-size:17px;margin-bottom:5px}
+  .story-body>p:last-child{font-size:11px;line-height:1.45}
+  .row-company{font-size:11px;margin-bottom:5px}
+  .story-inline-note{font-size:10px;padding-top:9px;line-height:1.3}
+  .toolkit-title{padding-top:14px;padding-bottom:14px}
+  .toolkit-title h2{font-size:clamp(49px,5vw,70px);margin:11px 0}
+  .toolkit-title>p{font-size:13px;line-height:1.45}
+  .toolkit-mark{font-size:90px}
+  .skills-board{margin-top:16px;margin-bottom:16px;padding:10px 22px}
+  .skill-line{padding:9px 0}
+  .skill-line h3{font-size:16px}
+  .skill-line p{font-size:11px;line-height:1.45}
+  .board-top,.board-foot{font-size:9px}
+  .contact-copy{padding-top:12px;padding-bottom:12px}
+  .contact-copy h2{font-size:clamp(55px,5.5vw,77px);margin:12px 0}
+  .contact-copy>p{font-size:13px;line-height:1.43}
+  .giant-mail{margin-top:14px;font-size:clamp(25px,3vw,41px)}
+  .contact-email{margin-top:5px;font-size:12px}
+  .contact-card{margin-top:14px;margin-bottom:14px;padding:16px 23px}
+  .contact-stamp{font-size:clamp(105px,13vw,170px)}
+  .contact-options a{padding:9px 0;font-size:13px}
+}
+/* Compact phones: use the available height rather than imposing an oversized panel. */
+@media (max-width:800px) and (max-height:750px){
+  .panel{overflow:hidden}
+  .panel-inner{height:100%;min-height:0!important}
+  .intro-grid{grid-template-rows:63% 37%}
+  .intro-copy{padding:7px var(--pinline)}
+  .intro-copy h1{font-size:clamp(44px,11.6vw,61px);margin:6px 0 8px;line-height:.93}
+  .intro-lede{font-size:11px;line-height:1.35}
+  .intro-actions{margin-top:9px}
+  .intro-visual .constellation{font-size:110px}
+  .intro-visual .satellite{display:none}
+  .project-layout{grid-template-rows:68% 32%}
+  .project-copy{padding:6px var(--pinline)}
+  .project-copy h2{font-size:clamp(40px,11.5vw,59px);line-height:.94}
+  .project-category{margin:6px 0 2px}
+  .project-copy>p{font-size:11px;line-height:1.32;margin-top:7px}
+  .tech-notes{margin-top:7px;gap:5px}
+  .tech-notes span{font-size:8px;padding:4px 6px}
+  .project-actions{margin-top:8px;gap:7px}
+  .case-footnote{margin-top:8px;padding-top:5px;font-size:9px;line-height:1.25}
+  .pill-link{min-height:35px;padding:0 11px;font-size:10px}
+  .project-stage{padding:5px 17px}
+  .showcase-card{max-height:65%;border-width:3px}
+  .story-layout{grid-template-rows:29% 71%}
+  .story-heading{padding:6px var(--pinline) 0}
+  .story-heading h2{font-size:clamp(39px,11vw,57px);line-height:.93;margin:5px 0}
+  .story-heading>p{font-size:10px;line-height:1.32}
+  .story-entries{padding:3px var(--pinline) 7px}
+  .story-row{padding:6px 0}
+  .story-year{font-size:20px}
+  .story-body h3{font-size:15px;margin:0 0 3px}
+  .story-body>p:last-child{font-size:10px;line-height:1.29}
+  .row-company{font-size:10px;margin:0 0 3px}
+  .story-inline-note{padding-top:5px;font-size:9px;line-height:1.25}
+  .toolkit-layout{grid-template-rows:28% 72%}
+  .toolkit-title{padding:7px var(--pinline) 0}
+  .toolkit-title h2{font-size:clamp(40px,10.5vw,55px);margin:5px 0;line-height:.95}
+  .toolkit-title>p{font-size:10px;line-height:1.3}
+  .skills-board{margin:4px var(--pinline) 9px;padding:8px 11px}
+  .skill-line{padding:5px 0}
+  .skill-line h3{font-size:13px}
+  .skill-line p{font-size:10px;line-height:1.27}
+  .skill-symbol{font-size:14px}
+  .board-top,.board-foot{font-size:8px}
+  .contact-layout{grid-template-rows:53% 47%}
+  .contact-copy{padding:9px var(--pinline)}
+  .contact-copy h2{font-size:clamp(46px,11.5vw,68px);margin:6px 0;line-height:.92}
+  .contact-copy>p{font-size:11px;line-height:1.35}
+  .giant-mail{margin-top:7px;font-size:21px}
+  .contact-email{margin-top:3px;font-size:10px}
+  .contact-card{margin:0 var(--pinline) 10px;padding:8px 12px}
+  .contact-stamp{font-size:90px;opacity:.25}
+  .contact-options a{padding:5px 0;font-size:11px}
+}
+/* Only extremely short/narrow screens need an internal overflow safety net;
+   it remains invisible and keyboard/touch reachable. */
+@media (max-width:800px) and (max-height:560px){
+  .panel{overflow-y:auto;scrollbar-width:none}
+  .panel-inner{min-height:475px!important}
+}
+/* Tablet portrait layouts need the shorter type scale, not oversized phone rows. */
+@media (min-width:601px) and (max-width:800px) and (max-height:900px){
+  .intro-copy{padding:9px var(--pinline)}
+  .intro-copy h1{font-size:clamp(48px,7.5vw,65px);line-height:.94;margin:7px 0 11px}
+  .intro-lede{font-size:12px;line-height:1.4}
+  .intro-actions{margin-top:10px}
+  .project-copy{padding:10px var(--pinline)}
+  .project-copy h2{font-size:clamp(48px,7vw,65px);line-height:.94}
+  .project-copy>p{font-size:12px;line-height:1.4;margin-top:10px}
+  .project-category{margin:8px 0 2px}
+  .tech-notes{margin-top:9px}
+  .project-actions{margin-top:10px}
+  .case-footnote{margin-top:9px;padding-top:6px}
+  .pill-link{min-height:40px}
+  .story-layout{grid-template-rows:37% 63%}
+  .story-heading{padding:7px var(--pinline)}
+  .story-heading h2{font-size:clamp(47px,7vw,62px);margin:7px 0}
+  .story-heading>p{font-size:11px;line-height:1.35}
+  .story-entries{padding:6px var(--pinline)}
+  .story-row{padding:8px 0}
+  .story-body>p:last-child{font-size:11px;line-height:1.35}
+  .toolkit-layout{grid-template-rows:39% 61%}
+  .toolkit-title{padding:7px var(--pinline)}
+  .toolkit-title h2{font-size:clamp(46px,7vw,62px);margin:7px 0}
+  .toolkit-title>p{font-size:11px}
+  .skills-board{padding:9px 18px}
+  .skill-line{padding:7px 0}
+  .contact-layout{grid-template-rows:63% 37%}
+  .contact-copy{padding:10px var(--pinline)}
+  .contact-copy h2{font-size:clamp(47px,7.5vw,68px);margin:8px 0;line-height:.92}
+  .contact-card{padding:9px 16px;margin-bottom:11px}
+  .contact-options a{padding:5px 0}
+}
+@media (max-width:400px) and (max-height:620px){
+  .panel{overflow-y:auto;scrollbar-width:none}
+  .panel-inner{min-height:490px!important}
+}
+@media (min-width:601px) and (max-width:800px) and (max-height:650px){
+  .intro-grid{grid-template-rows:69% 31%}
+  .intro-copy h1{font-size:clamp(44px,6.3vw,56px)}
+  .skills-board{margin:3px var(--pinline) 5px;padding:6px 16px}
+  .skill-line{padding:5px 0}
+}

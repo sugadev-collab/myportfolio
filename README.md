@@ -42,3 +42,11 @@ GitHub Pages → Settings → Pages → Deploy from a branch → `main` → `/ (
 ## Factual accuracy
 
 Descriptions are grounded in the developer's CV and published projects. The game was directed, tested and deployed with AI-assisted implementation; Three.js/WebGL are not listed as independent mastered skills. SGIC internship is Jan–Aug 2026. Vocational coursework is an NVQ Level 4 **pathway**, not a claimed completed certification.
+
+## Layout fixes (October 2026)
+
+- Removed forced minimum heights on normal laptop and tablet screens that caused chapter headings to disappear during mouse-wheel navigation.
+- Compact layouts fit between the navigation and footer; on extremely short phones hidden-scrollbar overflow remains reachable.
+- All chapters respond consistently to light/dark themes. Game artwork remains dark because the screenshot itself is dark.
+- Centered the blinking-eyes and sunglasses icons, preserved horizontal navigation, and versioned CSS/JS assets to avoid stale caches.
+- Tested responsive chapter bounds and wheel/keyboard navigation in Chromium at laptop, tablet and phone viewport sizes.

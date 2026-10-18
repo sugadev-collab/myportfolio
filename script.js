@@ -47,9 +47,10 @@ track.addEventListener('wheel', event => {
   if (event.ctrlKey || event.metaKey) return; // Preserve browser zoom.
   if (Math.abs(event.deltaX) > Math.abs(event.deltaY) * 1.2) return; // Native horizontal trackpads.
   if (Math.abs(event.deltaY) < 2) return;
-  // In short viewports, give internal vertical content a chance to scroll.
+  // Wheel navigation always moves between chapters on regular screens.
+  // Only extremely short phones allow a small amount of internal scrolling.
   const section = panels[current];
-  if (section.scrollHeight > section.clientHeight + 3) {
+  if (((window.innerWidth <= 800 && window.innerHeight <= 560) || (window.innerWidth <= 400 && window.innerHeight <= 620)) && section.scrollHeight > section.clientHeight + 3) {
     const atBottom = section.scrollTop + section.clientHeight >= section.scrollHeight - 3;
     const atTop = section.scrollTop <= 3;
     if ((event.deltaY > 0 && !atBottom) || (event.deltaY < 0 && !atTop)) {
